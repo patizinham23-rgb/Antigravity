@@ -5,7 +5,6 @@ tmp/*
 storage/*
 !storage/.keep
 config/master.key
-config/database.yml
 .env
 .env.local
 .env.production
