@@ -1,0 +1,33 @@
+<% content_for :title, "Editar Usuário - Admin" %>
+
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold gold font-serif mb-8">✦ Editar Usuário</h1>
+
+  <%= form_with model: [:admin, @user], class: "space-y-6" do |f| %>
+    <div>
+      <%= f.label :name, "Nome", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_field :name %>
+    </div>
+
+    <div>
+      <%= f.label :email, class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.email_field :email %>
+    </div>
+
+    <div>
+      <%= f.label :role, "Tipo", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.select :role, User.roles.keys.map { |k| [k.humanize, k] } %>
+    </div>
+
+    <div>
+      <%= f.label :bio, "Biografia", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_area :bio, rows: 4 %>
+    </div>
+
+    <div>
+      <%= f.submit "Atualizar Usuário", class: "btn-gold w-full", style: "padding: 14px;" %>
+    </div>
+  <% end %>
+
+  <%= link_to "← Voltar", admin_users_path, class: "block mt-4 text-sm", style: "color: #a89070;" %>
+</div>

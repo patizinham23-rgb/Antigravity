@@ -1,0 +1,40 @@
+<% content_for :title, "Fórum - #{@course.title}" %>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold gold font-serif">✦ Fórum</h1>
+      <p class="text-sm" style="color: #666;"><%= @course.title %></p>
+    </div>
+    <%= link_to "Novo Tópico", new_course_discussion_thread_path(@course), class: "btn-gold text-xs", style: "padding: 8px 20px;" %>
+  </div>
+
+  <div class="space-y-3">
+    <% if @threads.any? %>
+      <% @threads.each do |thread| %>
+        <%= link_to [@course, thread], class: "block card-dark p-5 hover:gold-border transition" do %>
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <div class="flex items-center gap-2 mb-1">
+                <% if thread.pinned? %><span class="text-xs gold">📌</span><% end %>
+                <h3 class="font-medium"><%= thread.title %></h3>
+              </div>
+              <p class="text-xs" style="color: #666;">
+                Por <%= thread.user.name %> · <%= thread.reply_count %> respostas · <%= l(thread.last_activity, format: :short) %>
+              </p>
+            </div>
+            <% if thread.reply_count > 0 %>
+              <span class="text-xs gold"><%= thread.reply_count %></span>
+            <% end %>
+          </div>
+        <% end %>
+      <% end %>
+    <% else %>
+      <div class="text-center py-16">
+        <p class="text-lg mb-4" style="color: #666;">Nenhuma discussão ainda.</p>
+        <p class="text-sm mb-6" style="color: #444;">Seja o primeiro a perguntar!</p>
+        <%= link_to "Criar Tópico", new_course_discussion_thread_path(@course), class: "btn-gold text-xs" %>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,46 @@
+<% content_for :title, "Meus Cursos - Instrutor" %>
+
+<div class="max-w-5xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold gold font-serif">✦ Meus Cursos</h1>
+      <p class="text-sm" style="color: #666;">Gerencie seus cursos e aulas</p>
+    </div>
+    <%= link_to "Novo Curso", new_instructor_course_path, class: "btn-gold text-xs", style: "padding: 8px 20px;" %>
+  </div>
+
+  <% if @courses.any? %>
+    <div class="space-y-4">
+      <% @courses.each do |course| %>
+        <div class="card-dark p-6">
+          <div class="flex items-start justify-between">
+            <div class="flex-1">
+              <div class="flex items-center gap-3 mb-2">
+                <h2 class="text-xl gold font-serif"><%= course.title %></h2>
+                <span class="text-xs px-2 py-0.5 rounded <%= course.published? ? 'gold-bg text-black' : '' %>" style="<%= 'background: #222; color: #666;' unless course.published? %>">
+                  <%= course.status.humanize %>
+                </span>
+              </div>
+              <p class="text-sm mb-3" style="color: #666;"><%= truncate(course.short_description, length: 100) %></p>
+              <div class="flex items-center gap-4 text-xs" style="color: #666;">
+                <span><%= course.lesson_count %> aulas</span>
+                <span><%= course.total_duration %> min</span>
+                <span><%= course.student_count %> alunos</span>
+                <span><%= number_to_currency(course.price, unit: "R$ ") %></span>
+              </div>
+            </div>
+            <div class="flex gap-2 ml-4">
+              <%= link_to "Editar", edit_instructor_course_path(course), class: "btn-gold text-xs", style: "padding: 8px 16px;" %>
+              <%= link_to "Aulas", instructor_course_lessons_path(course), class: "btn-gold text-xs", style: "padding: 8px 16px; background: transparent; border-color: #444; color: #a89070;" %>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-16">
+      <p class="text-xl mb-4" style="color: #666;">Você ainda não criou nenhum curso.</p>
+      <%= link_to "Criar Primeiro Curso", new_instructor_course_path, class: "btn-gold" %>
+    </div>
+  <% end %>
+</div>

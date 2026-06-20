@@ -1,0 +1,75 @@
+<% content_for :title, "Antigravity LMS - Aprenda Joalheria" %>
+
+<div class="min-h-screen flex items-center justify-center relative overflow-hidden" style="background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 30%, #16213e 60%, #0f0f1a 100%);">
+  <div class="text-center z-10 px-4">
+    <p class="text-xs uppercase tracking-widest gold mb-4">Plataforma de Ensino</p>
+    <h1 class="text-6xl md:text-7xl font-black tracking-widest mb-4" style="background: linear-gradient(135deg, #fff, #c9a84c, #ffd700, #c9a84c, #fff); background-size: 300%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; animation: shimmer 4s ease-in-out infinite;">
+      ANTIGRAVITY
+    </h1>
+    <div class="w-20 h-px mx-auto my-6" style="background: linear-gradient(90deg, transparent, #c9a84c, transparent);"></div>
+    <p class="text-lg mb-8" style="color: #a89070; letter-spacing: 4px;">
+      TRANSFORME SUA PAIXÃO EM CONHECIMENTO<br>
+      <span class="gold">CURSOS EXCLUSIVOS DE JOALHERIA</span>
+    </p>
+    <div class="flex gap-4 justify-center flex-wrap">
+      <%= link_to "Explorar Cursos", courses_path, class: "btn-gold text-sm" %>
+      <% unless user_signed_in? %>
+        <%= link_to "Criar Conta", new_user_registration_path, class: "btn-gold text-sm" %>
+      <% end %>
+    </div>
+  </div>
+</div>
+
+<div class="max-w-6xl mx-auto px-4 py-20">
+  <h2 class="text-3xl text-center font-bold mb-4">✦ Cursos em Destaque ✦</h2>
+  <p class="text-center text-sm uppercase tracking-widest mb-12" style="color: #666;">Comece sua jornada de aprendizado</p>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @featured_courses.each do |course| %>
+      <div class="card-dark overflow-hidden">
+        <div class="h-48 overflow-hidden">
+          <% if course.cover_image.attached? %>
+            <%= image_tag course.cover_image, class: "w-full h-full object-cover transition-transform duration-500 hover:scale-105" %>
+          <% else %>
+            <div class="w-full h-full flex items-center justify-center" style="background: #1a1a2e;">
+              <span class="text-4xl gold">✦</span>
+            </div>
+          <% end %>
+        </div>
+        <div class="p-6">
+          <h3 class="text-xl gold mb-2"><%= course.title %></h3>
+          <p class="text-sm mb-4" style="color: #666;"><%= truncate(course.short_description, length: 80) %></p>
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-bold text-white"><%= number_to_currency(course.price, unit: "R$ ") %></span>
+            <%= link_to "Ver Curso", course_path(course), class: "btn-gold text-xs", style: "padding: 8px 18px;" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
+
+<div class="max-w-4xl mx-auto px-4 py-16 text-center">
+  <div class="grid grid-cols-3 gap-8">
+    <div>
+      <div class="text-4xl gold font-bold font-serif"><%= @course_count %></div>
+      <div class="text-sm uppercase tracking-wider mt-2" style="color: #666;">Cursos</div>
+    </div>
+    <div>
+      <div class="text-4xl gold font-bold font-serif"><%= @student_count %></div>
+      <div class="text-sm uppercase tracking-wider mt-2" style="color: #666;">Alunos</div>
+    </div>
+    <div>
+      <div class="text-4xl gold font-bold font-serif">100%</div>
+      <div class="text-sm uppercase tracking-wider mt-2" style="color: #666;">Online</div>
+    </div>
+  </div>
+</div>
+
+<style>
+  @keyframes shimmer {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+</style>

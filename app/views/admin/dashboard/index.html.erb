@@ -1,0 +1,59 @@
+<!-- Admin Dashboard -->
+<% content_for :title, "Admin - Antigravity LMS" %>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold">✦ Admin Dashboard</h1>
+    <div class="flex gap-3">
+      <%= link_to "Categorias", admin_categories_path, class: "btn-gold text-xs", style: "padding: 8px 16px; background: transparent; border-color: #444; color: #a89070;" %>
+      <%= link_to "Usuários", admin_users_path, class: "btn-gold text-xs", style: "padding: 8px 16px; background: transparent; border-color: #444; color: #a89070;" %>
+      <%= link_to "Cursos", admin_courses_path, class: "btn-gold text-xs", style: "padding: 8px 16px; background: transparent; border-color: #444; color: #a89070;" %>
+      <%= link_to "Ver Site", root_path, class: "btn-gold text-xs", style: "padding: 8px 20px;" %>
+    </div>
+  </div>
+
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+    <div class="card-dark p-6 text-center">
+      <div class="text-3xl gold font-bold font-serif"><%= @total_users %></div>
+      <div class="text-sm uppercase tracking-wider mt-2" style="color: #666;">Usuários</div>
+    </div>
+    <div class="card-dark p-6 text-center">
+      <div class="text-3xl gold font-bold font-serif"><%= @total_courses %></div>
+      <div class="text-sm uppercase tracking-wider mt-2" style="color: #666;">Cursos</div>
+    </div>
+    <div class="card-dark p-6 text-center">
+      <div class="text-3xl gold font-bold font-serif"><%= @total_enrollments %></div>
+      <div class="text-sm uppercase tracking-wider mt-2" style="color: #666;">Matrículas</div>
+    </div>
+    <div class="card-dark p-6 text-center">
+      <div class="text-3xl gold font-bold font-serif"><%= number_to_currency(@total_revenue, unit: "R$ ") %></div>
+      <div class="text-sm uppercase tracking-wider mt-2" style="color: #666;">Receita</div>
+    </div>
+  </div>
+
+  <div class="card-dark p-6">
+    <h2 class="text-xl gold font-serif mb-4">Últimas Matrículas</h2>
+    <div class="overflow-x-auto">
+      <table class="w-full text-sm">
+        <thead>
+          <tr style="color: #666; border-bottom: 1px solid #222;">
+            <th class="text-left py-3">Aluno</th>
+            <th class="text-left py-3">Curso</th>
+            <th class="text-left py-3">Data</th>
+            <th class="text-right py-3">Valor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @recent_enrollments.each do |enrollment| %>
+            <tr style="border-bottom: 1px solid #1a1a1a;">
+              <td class="py-3"><%= enrollment.user.name %></td>
+              <td class="py-3 gold"><%= enrollment.course.title %></td>
+              <td class="py-3" style="color: #666;"><%= l(enrollment.created_at, format: :short) %></td>
+              <td class="py-3 text-right text-white"><%= number_to_currency(enrollment.course.price, unit: "R$ ") %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

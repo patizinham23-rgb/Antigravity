@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= content_for?(:title) ? yield(:title) : "Antigravity LMS" %></title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+  <%= stylesheet_link_tag "tailwind", "data-turbo-track": "reload" %>
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #0a0a0a;
+      color: #e0d5c1;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      font-family: 'Playfair Display', serif;
+    }
+    .gold { color: #c9a84c; }
+    .gold-bg { background: #c9a84c; }
+    .gold-border { border-color: #c9a84c; }
+    .gold-glow:hover { box-shadow: 0 0 20px rgba(201,168,76,0.4); }
+    .btn-gold {
+      background: transparent; border: 1px solid #c9a84c; color: #c9a84c;
+      padding: 12px 30px; letter-spacing: 2px; text-transform: uppercase;
+      transition: 0.4s; cursor: pointer; font-size: 0.85em;
+    }
+    .btn-gold:hover {
+      background: #c9a84c; color: #0a0a0a;
+      box-shadow: 0 0 30px rgba(201,168,76,0.6);
+    }
+    .card-dark {
+      background: #111; border: 1px solid #222; border-radius: 12px; transition: 0.4s;
+    }
+    .card-dark:hover {
+      border-color: #c9a84c; transform: translateY(-4px);
+      box-shadow: 0 10px 40px rgba(201,168,76,0.1);
+    }
+    input, select, textarea {
+      background: #111; border: 1px solid #222; color: #e0d5c1;
+      padding: 12px 15px; border-radius: 6px; width: 100%;
+    }
+    input:focus, select:focus, textarea:focus {
+      outline: none; border-color: #c9a84c; box-shadow: 0 0 10px rgba(201,168,76,0.2);
+    }
+    .notice, .alert {
+      padding: 12px 20px; border-radius: 8px; margin-bottom: 20px;
+      border: 1px solid;
+    }
+    .notice { border-color: #c9a84c; color: #c9a84c; }
+    .alert { border-color: #ff4444; color: #ff4444; }
+  </style>
+</head>
+<body class="min-h-screen">
+  <nav class="fixed top-0 left-0 right-0 z-50 flex items-center justify-between px-8 py-4" style="background: rgba(10,10,10,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(201,168,76,0.15);">
+    <%= link_to "✦ ANTIGRAVITY", root_path, class: "font-bold text-lg", style: "font-family: 'Playfair Display', serif; color: #c9a84c; letter-spacing: 4px;" %>
+      <div class="flex items-center gap-6">
+        <%= link_to "Cursos", courses_path, class: "text-sm uppercase tracking-wider", style: "color: #a89070;" %>
+        <% if user_signed_in? %>
+          <%= link_to "Meus Cursos", dashboard_path, class: "text-sm uppercase tracking-wider", style: "color: #a89070;" %>
+          <%= link_to "Perfil", profile_path, class: "text-sm uppercase tracking-wider", style: "color: #a89070;" %>
+          <% if current_user.instructor? %>
+            <%= link_to "Instrutor", instructor_dashboard_path, class: "text-sm uppercase tracking-wider", style: "color: #a89070;" %>
+          <% end %>
+          <% if current_user.admin? %>
+            <%= link_to "Admin", admin_dashboard_path, class: "text-sm uppercase tracking-wider", style: "color: #c9a84c;" %>
+          <% end %>
+          <%= button_to "Sair", destroy_user_session_path, method: :delete, class: "btn-gold text-sm", style: "padding: 8px 20px; font-size: 0.75em;" %>
+        <% else %>
+          <%= link_to "Entrar", new_user_session_path, class: "btn-gold text-sm", style: "padding: 8px 20px; font-size: 0.75em;" %>
+        <% end %>
+      </div>
+  </nav>
+
+  <main class="pt-20">
+    <% if notice %><div class="notice max-w-6xl mx-auto mt-4 px-4"><%= notice %></div><% end %>
+    <% if alert %><div class="alert max-w-6xl mx-auto mt-4 px-4"><%= alert %></div><% end %>
+    <%= yield %>
+  </main>
+
+  <footer class="text-center py-12 px-8 mt-16" style="background: #080808; border-top: 1px solid #111; color: #444;">
+    <p>&copy; 2026 Antigravity LMS. Todos os direitos reservados.</p>
+  </footer>
+</body>
+</html>

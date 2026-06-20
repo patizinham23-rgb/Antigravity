@@ -1,0 +1,25 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+
+development:
+  <<: *default
+  database: antigravity_lms_development
+  username: postgres
+  password: postgres
+  host: localhost
+
+test:
+  <<: *default
+  database: antigravity_lms_test
+  username: postgres
+  password: postgres
+  host: localhost
+
+production:
+  <<: *default
+  database: antigravity_lms_production
+  username: <%= ENV["ANTIGRAVITY_DATABASE_USER"] %>
+  password: <%= ENV["ANTIGRAVITY_DATABASE_PASSWORD"] %>
+  host: <%= ENV["ANTIGRAVITY_DATABASE_HOST"] %>

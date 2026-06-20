@@ -1,0 +1,52 @@
+<% content_for :title, "Certificado - #{@course.title}" %>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="card-dark p-12 text-center relative overflow-hidden" style="border: 2px solid #c9a84c;">
+    <div class="absolute inset-0 opacity-5" style="background: radial-gradient(circle at center, #c9a84c 0%, transparent 70%);"></div>
+
+    <div class="relative z-10">
+      <p class="text-xs uppercase tracking-widest gold mb-4">Certificado de Conclusão</p>
+
+      <div class="w-16 h-px mx-auto mb-8" style="background: linear-gradient(90deg, transparent, #c9a84c, transparent);"></div>
+
+      <h1 class="text-3xl font-bold gold font-serif mb-2">✦ ANTIGRAVITY ✦</h1>
+      <p class="text-sm mb-8" style="color: #666;">Learning Management System</p>
+
+      <p class="text-lg mb-4" style="color: #a89070;">Certificamos que</p>
+      <p class="text-3xl font-bold text-white mb-6 font-serif"><%= @user.name %></p>
+      <p class="text-lg mb-6" style="color: #a89070;">
+        concluiu o curso
+      </p>
+      <p class="text-2xl gold font-bold font-serif mb-8"><%= @course.title %></p>
+
+      <div class="w-24 h-px mx-auto mb-8" style="background: linear-gradient(90deg, transparent, #c9a84c, transparent);"></div>
+
+      <div class="flex items-center justify-center gap-8 text-xs" style="color: #666;">
+        <div>
+          <p>Data de Emissão</p>
+          <p class="text-white mt-1"><%= l(@certificate.issued_at, format: :long) %></p>
+        </div>
+        <div class="w-px h-8" style="background: #333;"></div>
+        <div>
+          <p>Código</p>
+          <p class="text-white mt-1 font-mono"><%= @certificate.full_code %></p>
+        </div>
+        <div class="w-px h-8" style="background: #333;"></div>
+        <div>
+          <p>Duração</p>
+          <p class="text-white mt-1"><%= @course.total_duration %> horas</p>
+        </div>
+      </div>
+
+      <div class="mt-8 pt-8" style="border-top: 1px solid #222;">
+        <p class="text-xs" style="color: #444;">
+          Verifique a autenticidade em antigravitylms.com/verify/<%= @certificate.full_code %>
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="text-center mt-8">
+    <%= link_to "← Meus Certificados", certificates_path, class: "text-sm gold" %>
+  </div>
+</div>

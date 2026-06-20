@@ -1,0 +1,46 @@
+<% content_for :title, "Editar Perfil - Antigravity LMS" %>
+
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold gold font-serif mb-8">✦ Editar Perfil</h1>
+
+  <%= form_with model: @user, url: profile_path, method: :patch, class: "space-y-6", html: { multipart: true } do |f| %>
+    <% if @user.errors.any? %>
+      <div class="alert">
+        <%= pluralize(@user.errors.count, "erro") %> impediram o salvamento
+      </div>
+    <% end %>
+
+    <div class="flex items-center gap-6 mb-8">
+      <% if @user.avatar.attached? %>
+        <%= image_tag @user.avatar.variant(:thumb), class: "w-20 h-20 rounded-full object-cover border-2 gold-border" %>
+      <% else %>
+        <div class="w-20 h-20 rounded-full flex items-center justify-center" style="background: #1a1a2e; border: 2px solid #222;">
+          <span class="text-2xl gold">✦</span>
+        </div>
+      <% end %>
+      <div>
+        <%= f.label :avatar, "Foto de Perfil", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+        <%= f.file_field :avatar, accept: "image/*", class: "text-sm", style: "background: none; border: none; padding: 0;" %>
+      </div>
+    </div>
+
+    <div>
+      <%= f.label :name, "Nome", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_field :name %>
+    </div>
+
+    <div>
+      <%= f.label :bio, "Biografia", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_area :bio, rows: 4, placeholder: "Conte um pouco sobre você..." %>
+    </div>
+
+    <div>
+      <%= f.submit "Salvar Alterações", class: "btn-gold w-full", style: "padding: 14px;" %>
+    </div>
+  <% end %>
+
+  <div class="mt-8 pt-8" style="border-top: 1px solid #222;">
+    <h2 class="text-xl gold font-serif mb-4">✦ Segurança</h2>
+    <%= link_to "Alterar Senha", edit_user_registration_path, class: "btn-gold text-xs", style: "padding: 10px 24px;" %>
+  </div>
+</div>

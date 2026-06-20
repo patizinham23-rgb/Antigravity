@@ -1,0 +1,79 @@
+<% content_for :title, "#{@lesson.title} - #{@course.title}" %>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="grid md:grid-cols-4 gap-6">
+    <div class="md:col-span-3">
+      <div class="rounded-xl overflow-hidden mb-6" style="background: #1a1a2e;">
+        <div class="aspect-video flex items-center justify-center">
+          <% if @lesson.video_url.present? %>
+            <% if @lesson.video_url.include?("youtube.com") || @lesson.video_url.include?("youtu.be") %>
+              <% video_id = @lesson.video_url.match(/(?:youtube\.com\/(?:watch\?v=|embed\/)|youtu\.be\/)([a-zA-Z0-9_-]{11})/) %>
+              <% if video_id %>
+                <iframe class="w-full h-full" src="https://www.youtube.com/embed/<%= video_id[1] %>" frameborder="0" allowfullscreen></iframe>
+              <% end %>
+            <% elsif @lesson.video_url.include?("vimeo.com") %>
+              <% video_id = @lesson.video_url.match(/vimeo\.com\/(\d+)/) %>
+              <% if video_id %>
+                <iframe class="w-full h-full" src="https://player.vimeo.com/video/<%= video_id[1] %>" frameborder="0" allowfullscreen></iframe>
+              <% end %>
+            <% else %>
+              <span class="text-6xl gold">▶</span>
+            <% end %>
+          <% else %>
+            <span class="text-6xl gold">▶</span>
+          <% end %>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between mb-6">
+        <div>
+          <h1 class="text-2xl font-bold gold"><%= @lesson.title %></h1>
+          <p class="text-sm" style="color: #666;"><%= @lesson.duration %> min</p>
+        </div>
+        <%= button_to "Concluir Aula", complete_course_lesson_path(@course, @lesson), method: :patch,
+              class: @progress&.completed? ? "text-sm gold" : "btn-gold text-sm",
+              style: (@progress&.completed? ? "" : "padding: 10px 25px;") %>
+      </div>
+
+      <div class="prose prose-invert max-w-none" style="color: #a89070; line-height: 1.8;">
+        <%= @lesson.content %>
+      </div>
+
+      <div class="flex items-center justify-between mt-8">
+        <% if @lesson.prev_lesson %>
+          <%= link_to "← Aula Anterior", course_lesson_path(@course, @lesson.prev_lesson), class: "text-sm gold" %>
+        <% else %>
+          <div></div>
+        <% end %>
+        <% if @lesson.next_lesson %>
+          <%= link_to "Próxima Aula →", course_lesson_path(@course, @lesson.next_lesson), class: "text-sm gold" %>
+        <% else %>
+          <%= link_to "Finalizar Curso", course_path(@course), class: "text-sm gold" %>
+        <% end %>
+      </div>
+    </div>
+
+    <div>
+      <div class="mb-4">
+        <%= link_to "💬 Fórum da Aula", course_discussion_threads_path(@course, lesson_id: @lesson), class: "btn-gold text-xs w-full text-center block", style: "padding: 10px;" %>
+      </div>
+      <h3 class="text-lg gold font-serif mb-4">Conteúdo do Curso</h3>
+      <div class="space-y-1">
+        <% @lessons.each_with_index do |lesson, i| %>
+          <%= link_to course_lesson_path(@course, lesson), class: "block card-dark p-3 #{'gold-border' if lesson == @lesson}" do %>
+            <div class="flex items-center gap-2">
+              <% if lesson.completed_by?(current_user) %>
+                <span class="text-xs gold">✓</span>
+              <% else %>
+                <span class="text-xs" style="color: #444;"><%= "%02d" % (i + 1) %></span>
+              <% end %>
+              <span class="text-sm" style="<%= lesson == @lesson ? 'color: #c9a84c;' : 'color: #a89070;' %>">
+                <%= lesson.title %>
+              </span>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

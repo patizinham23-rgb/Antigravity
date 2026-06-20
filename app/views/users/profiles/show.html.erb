@@ -1,0 +1,74 @@
+<% content_for :title, "Meu Perfil - Antigravity LMS" %>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="card-dark p-8 mb-8">
+    <div class="flex items-start gap-6">
+      <div class="flex-shrink-0">
+        <% if @user.avatar.attached? %>
+          <%= image_tag @user.avatar.variant(:thumb), class: "w-24 h-24 rounded-full object-cover border-2 gold-border" %>
+        <% else %>
+          <div class="w-24 h-24 rounded-full flex items-center justify-center" style="background: #1a1a2e; border: 2px solid #222;">
+            <span class="text-3xl gold">✦</span>
+          </div>
+        <% end %>
+      </div>
+      <div class="flex-1">
+        <div class="flex items-center justify-between">
+          <div>
+            <h1 class="text-2xl font-bold gold"><%= @user.name %></h1>
+            <p class="text-sm" style="color: #666;"><%= @user.email %></p>
+            <span class="text-xs px-2 py-1 rounded gold-bg text-black font-semibold"><%= @user.role.humanize %></span>
+          </div>
+          <%= link_to "Editar Perfil", edit_profile_path, class: "btn-gold text-xs", style: "padding: 8px 20px;" %>
+        </div>
+        <% if @user.bio.present? %>
+          <p class="mt-4 text-sm" style="color: #a89070; line-height: 1.6;"><%= @user.bio %></p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <div class="grid md:grid-cols-2 gap-6">
+    <div class="card-dark p-6">
+      <h2 class="text-xl gold font-serif mb-4">✦ Cursos em Andamento</h2>
+      <% if @enrollments.any? %>
+        <div class="space-y-4">
+          <% @enrollments.each do |enrollment| %>
+            <div>
+              <div class="flex items-center justify-between mb-1">
+                <span class="text-sm"><%= enrollment.course.title %></span>
+                <span class="text-xs font-bold text-white"><%= enrollment.progress %>%</span>
+              </div>
+              <div class="w-full h-1.5 rounded-full" style="background: #222;">
+                <div class="h-full rounded-full gold-bg" style="width: <%= enrollment.progress %>%"></div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm" style="color: #666;">Nenhum curso em andamento.</p>
+      <% end %>
+    </div>
+
+    <div class="card-dark p-6">
+      <h2 class="text-xl gold font-serif mb-4">✦ Certificados</h2>
+      <% if @certificates.any? %>
+        <div class="space-y-3">
+          <% @certificates.each do |cert| %>
+            <%= link_to cert, class: "block card-dark p-4 hover:gold-border transition" do %>
+              <div class="flex items-center gap-3">
+                <span class="text-lg">✦</span>
+                <div>
+                  <p class="text-sm gold"><%= cert.course.title %></p>
+                  <p class="text-xs" style="color: #666;"><%= l(cert.issued_at, format: :long) %></p>
+                </div>
+              </div>
+            <% end %>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm" style="color: #666;">Conclua um curso para ganhar seu certificado.</p>
+      <% end %>
+    </div>
+  </div>
+</div>

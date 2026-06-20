@@ -1,0 +1,36 @@
+<h2 class="text-2xl font-bold gold font-serif text-center mb-8">Criar Conta</h2>
+
+<%= form_for(resource, as: resource_name, url: registration_path(resource_name), html: { class: "max-w-md mx-auto space-y-4" }) do |f| %>
+  <%= render "devise/shared/error_messages", resource: resource %>
+
+  <div>
+    <%= f.label :name, "Nome", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+    <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
+  </div>
+
+  <div>
+    <%= f.label :email, class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+    <%= f.email_field :email, autocomplete: "email" %>
+  </div>
+
+  <div>
+    <%= f.label :password, "Senha", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+    <%= f.password_field :password, autocomplete: "new-password" %>
+    <% if @minimum_password_length %>
+      <p class="text-xs mt-1" style="color: #444;">Mínimo de <%= @minimum_password_length %> caracteres</p>
+    <% end %>
+  </div>
+
+  <div>
+    <%= f.label :password_confirmation, "Confirmar Senha", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+    <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+  </div>
+
+  <div class="pt-4">
+    <%= f.submit "Criar Conta", class: "btn-gold w-full text-center", style: "padding: 12px;" %>
+  </div>
+<% end %>
+
+<div class="text-center mt-6">
+  <%= link_to "Já tem conta? Entre", new_session_path(resource_name), class: "text-sm gold" %>
+</div>

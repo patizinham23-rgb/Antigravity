@@ -1,0 +1,21 @@
+<% if user_signed_in? && current_user.enrolled_in?(course) %>
+  <% review = course.reviews.find_or_initialize_by(user: current_user) %>
+  <%= form_with model: [course, review], class: "space-y-4", local: true do |f| %>
+    <div>
+      <p class="text-sm uppercase tracking-wider mb-2" style="color: #a89070;">Sua Avaliação</p>
+      <div class="flex gap-2 mb-3" data-controller="rating">
+        <% (1..5).each do |i| %>
+          <%= f.radio_button :rating, i, id: "rating_#{i}", class: "hidden" %>
+          <%= label_tag "rating_#{i}", "★", class: "text-2xl cursor-pointer transition hover:scale-110",
+                style: "color: #{review.persisted? && review.rating >= i ? '#c9a84c' : '#333'};" %>
+        <% end %>
+      </div>
+    </div>
+    <div>
+      <%= f.text_area :comment, rows: 3, placeholder: "Compartilhe sua experiência com este curso...",
+            class: "w-full", style: "background: #111; border: 1px solid #222; color: #e0d5c1; padding: 12px 15px; border-radius: 6px;" %>
+    </div>
+    <%= f.submit review.persisted? ? "Atualizar Avaliação" : "Enviar Avaliação",
+          class: "btn-gold text-sm", style: "padding: 10px 24px;" %>
+  <% end %>
+<% end %>

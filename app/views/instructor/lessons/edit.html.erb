@@ -1,0 +1,41 @@
+<% content_for :title, "Editar Aula - #{@course.title}" %>
+
+<div class="max-w-3xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold gold font-serif mb-2">✦ Editar Aula</h1>
+  <p class="text-sm mb-8" style="color: #666;">Curso: <%= @course.title %></p>
+
+  <%= form_with model: [:instructor, @course, @lesson], class: "space-y-6" do |f| %>
+    <div>
+      <%= f.label :title, "Título", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_field :title %>
+    </div>
+
+    <div>
+      <%= f.label :content, "Conteúdo", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_area :content, rows: 10 %>
+    </div>
+
+    <div class="grid grid-cols-3 gap-4">
+      <div>
+        <%= f.label :video_url, "URL do Vídeo", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+        <%= f.text_field :video_url %>
+      </div>
+      <div>
+        <%= f.label :duration, "Duração (min)", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+        <%= f.number_field :duration %>
+      </div>
+      <div class="flex items-end pb-3">
+        <label class="flex items-center gap-2 cursor-pointer">
+          <%= f.check_box :free_preview, class: "w-4 h-4", style: "accent-color: #c9a84c;" %>
+          <span class="text-sm" style="color: #a89070;">Aula Gratuita</span>
+        </label>
+      </div>
+    </div>
+
+    <div>
+      <%= f.submit "Atualizar Aula", class: "btn-gold w-full", style: "padding: 14px;" %>
+    </div>
+  <% end %>
+
+  <%= link_to "Voltar", instructor_course_lessons_path(@course), class: "block mt-4 text-sm", style: "color: #a89070;" %>
+</div>

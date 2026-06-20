@@ -1,0 +1,32 @@
+<% content_for :title, "Meus Certificados - Antigravity LMS" %>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="text-center py-12">
+    <h1 class="text-4xl font-bold mb-4">✦ Meus Certificados ✦</h1>
+    <p class="text-sm uppercase tracking-widest" style="color: #666;">Suas conquistas na Antigravity</p>
+  </div>
+
+  <% if @certificates.any? %>
+    <div class="grid md:grid-cols-2 gap-6">
+      <% @certificates.each do |cert| %>
+        <%= link_to cert, class: "card-dark p-6 hover:gold-border transition group" do %>
+          <div class="text-center">
+            <div class="text-5xl mb-4 gold group-hover:scale-110 transition-transform">✦</div>
+            <h2 class="text-xl gold font-serif mb-2"><%= cert.course.title %></h2>
+            <p class="text-sm mb-3" style="color: #666;">Certificado de Conclusão</p>
+            <p class="text-xs" style="color: #444;">
+              Emitido em <%= l(cert.issued_at, format: :long) %>
+            </p>
+            <div class="mt-4 inline-block btn-gold text-xs" style="padding: 6px 16px;">Visualizar</div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  <% else %>
+    <div class="text-center py-16">
+      <p class="text-xl mb-4" style="color: #666;">Você ainda não possui certificados.</p>
+      <p class="text-sm mb-6" style="color: #444;">Complete um curso para ganhar seu certificado.</p>
+      <%= link_to "Explorar Cursos", courses_path, class: "btn-gold" %>
+    </div>
+  <% end %>
+</div>

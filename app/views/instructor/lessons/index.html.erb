@@ -1,0 +1,41 @@
+<% content_for :title, "Aulas - #{@course.title}" %>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-8">
+    <div>
+      <h1 class="text-3xl font-bold gold font-serif"><%= @course.title %></h1>
+      <p class="text-sm" style="color: #666;">Gerenciar Aulas</p>
+    </div>
+    <%= link_to "Nova Aula", new_instructor_course_lesson_path(@course), class: "btn-gold text-xs", style: "padding: 8px 20px;" %>
+  </div>
+
+  <div class="space-y-3">
+    <% @lessons.each_with_index do |lesson, i| %>
+      <div class="card-dark p-5 flex items-center justify-between">
+        <div class="flex items-center gap-4">
+          <span class="text-xs gold"><%= "%02d" % (i + 1) %></span>
+          <div>
+            <h3 class="font-medium"><%= lesson.title %></h3>
+            <p class="text-xs" style="color: #666;"><%= lesson.duration %> min <%= "· Grátis" if lesson.free_preview %></p>
+          </div>
+        </div>
+        <div class="flex items-center gap-2">
+          <div class="flex flex-col gap-0.5">
+            <%= button_to "▲", move_up_instructor_course_lesson_path(@course, lesson), method: :patch,
+                  class: "text-xs", style: "color: #a89070; background: none; border: none; cursor: pointer; padding: 0; line-height: 1;",
+                  title: "Mover para cima" %>
+            <%= button_to "▼", move_down_instructor_course_lesson_path(@course, lesson), method: :patch,
+                  class: "text-xs", style: "color: #a89070; background: none; border: none; cursor: pointer; padding: 0; line-height: 1;",
+                  title: "Mover para baixo" %>
+          </div>
+          <%= link_to "Editar", edit_instructor_course_lesson_path(@course, lesson), class: "text-sm gold" %>
+          <%= button_to "Remover", instructor_course_lesson_path(@course, lesson), method: :delete,
+                class: "text-sm", style: "color: #ff4444; background: none; border: none; cursor: pointer;",
+                data: { confirm: "Remover esta aula?" } %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= link_to "Voltar", instructor_courses_path, class: "block mt-6 text-sm", style: "color: #a89070;" %>
+</div>

@@ -1,0 +1,31 @@
+<% content_for :title, "Categorias - Admin" %>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold gold font-serif">✦ Categorias</h1>
+    <%= link_to "Nova Categoria", new_admin_category_path, class: "btn-gold text-xs", style: "padding: 8px 20px;" %>
+  </div>
+
+  <div class="card-dark p-6">
+    <% if @categories.any? %>
+      <div class="space-y-3">
+        <% @categories.each do |category| %>
+          <div class="flex items-center justify-between p-4" style="border-bottom: 1px solid #1a1a1a;">
+            <div>
+              <h3 class="font-medium"><%= category.name %></h3>
+              <p class="text-xs" style="color: #666;"><%= category.courses.published.count %> cursos publicados</p>
+            </div>
+            <div class="flex gap-3">
+              <%= link_to "Editar", edit_admin_category_path(category), class: "text-sm gold" %>
+              <%= button_to "Remover", admin_category_path(category), method: :delete,
+                    class: "text-sm", style: "color: #ff4444; background: none; border: none; cursor: pointer;",
+                    data: { confirm: "Remover categoria?" } %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+    <% else %>
+      <p class="text-center py-8" style="color: #666;">Nenhuma categoria cadastrada.</p>
+    <% end %>
+  </div>
+</div>

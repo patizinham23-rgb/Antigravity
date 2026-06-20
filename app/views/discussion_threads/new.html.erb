@@ -1,0 +1,28 @@
+<% content_for :title, "Novo Tópico - #{@course.title}" %>
+
+<div class="max-w-3xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold gold font-serif mb-2">✦ Novo Tópico</h1>
+  <p class="text-sm mb-8" style="color: #666;"><%= @course.title %></p>
+
+  <%= form_with model: [@course, @thread], class: "space-y-6" do |f| %>
+    <% if @thread.errors.any? %>
+      <div class="alert"><%= pluralize(@thread.errors.count, "erro") %> impediram o salvamento</div>
+    <% end %>
+
+    <div>
+      <%= f.label :title, "Título", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_field :title, placeholder: "Ex: Dúvida sobre a aula 3" %>
+    </div>
+
+    <div>
+      <%= f.label :body, "Mensagem", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_area :body, rows: 8, placeholder: "Descreva sua dúvida ou discussão..." %>
+    </div>
+
+    <div>
+      <%= f.submit "Criar Tópico", class: "btn-gold w-full", style: "padding: 14px;" %>
+    </div>
+  <% end %>
+
+  <%= link_to "← Voltar", course_discussion_threads_path(@course), class: "block mt-4 text-sm", style: "color: #a89070;" %>
+</div>

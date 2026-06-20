@@ -1,0 +1,55 @@
+<% content_for :title, "Novo Curso - Antigravity LMS" %>
+
+<div class="max-w-2xl mx-auto px-4 py-8">
+  <h1 class="text-3xl font-bold gold font-serif mb-8">✦ Novo Curso</h1>
+
+  <%= form_with model: [:instructor, @course], class: "space-y-6" do |f| %>
+    <% if @course.errors.any? %>
+      <div class="alert">
+        <%= pluralize(@course.errors.count, "erro") %> impediram o salvamento:
+        <ul class="mt-2"><% @course.errors.full_messages.each do |msg| %><li><%= msg %></li><% end %></ul>
+      </div>
+    <% end %>
+
+    <div>
+      <%= f.label :title, "Título do Curso", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_field :title, placeholder: "Ex: Fundamentos da Ourivesaria" %>
+    </div>
+
+    <div>
+      <%= f.label :short_description, "Chamada (curta)", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_field :short_description, placeholder: "Uma frase impactante sobre o curso" %>
+    </div>
+
+    <div>
+      <%= f.label :description, "Descrição Completa", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+      <%= f.text_area :description, rows: 6, placeholder: "Descreva o curso em detalhes..." %>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <%= f.label :price, "Preço (R$)", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+        <%= f.number_field :price, step: 0.01, placeholder: "2970" %>
+      </div>
+      <div>
+        <%= f.label :category, "Categoria", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+        <%= f.select :category, ["Ourivesaria", "Design", "Gemologia", "Ferramentas", "Negócios"], { prompt: "Selecione" } %>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-2 gap-4">
+      <div>
+        <%= f.label :level, "Nível", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+        <%= f.select :level, Course.levels.keys.map { |k| [k.humanize, k] }, { prompt: "Selecione" } %>
+      </div>
+      <div>
+        <%= f.label :status, "Status", class: "block text-sm uppercase tracking-wider mb-1", style: "color: #a89070;" %>
+        <%= f.select :status, Course.statuses.keys.map { |k| [k.humanize, k] }, { prompt: "Selecione" } %>
+      </div>
+    </div>
+
+    <div>
+      <%= f.submit "Salvar Curso", class: "btn-gold w-full", style: "padding: 14px;" %>
+    </div>
+  <% end %>
+</div>

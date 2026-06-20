@@ -1,0 +1,41 @@
+<% content_for :title, "Cursos - Antigravity LMS" %>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="text-center py-12">
+    <h1 class="text-4xl font-bold mb-4">✦ Catálogo de Cursos ✦</h1>
+    <p class="text-sm uppercase tracking-widest" style="color: #666;">Encontre o curso ideal para você</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <% @courses.each do |course| %>
+      <div class="card-dark overflow-hidden">
+        <div class="h-48 overflow-hidden">
+          <% if course.cover_image.attached? %>
+            <%= image_tag course.cover_image, class: "w-full h-full object-cover transition-transform duration-500 hover:scale-105" %>
+          <% else %>
+            <div class="w-full h-full flex items-center justify-center" style="background: #1a1a2e;">
+              <span class="text-4xl gold">✦</span>
+            </div>
+          <% end %>
+        </div>
+        <div class="p-6">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs px-2 py-1 rounded gold-bg text-black font-semibold"><%= course.level.humanize %></span>
+            <span class="text-xs" style="color: #666;"><%= course.category %></span>
+          </div>
+          <h3 class="text-xl gold mb-2"><%= course.title %></h3>
+          <p class="text-sm mb-4" style="color: #666;"><%= truncate(course.short_description, length: 80) %></p>
+          <div class="flex items-center gap-4 text-xs mb-4" style="color: #666;">
+            <span><%= course.lesson_count %> aulas</span>
+            <span><%= course.total_duration %> min</span>
+            <span><%= course.student_count %> alunos</span>
+          </div>
+          <div class="flex items-center justify-between">
+            <span class="text-2xl font-bold text-white"><%= number_to_currency(course.price, unit: "R$ ") %></span>
+            <%= link_to "Ver Curso", course_path(course), class: "btn-gold text-xs", style: "padding: 8px 18px;" %>
+          </div>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>

@@ -1,0 +1,104 @@
+<% content_for :title, "#{@course.title} - Antigravity LMS" %>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <div class="grid md:grid-cols-5 gap-8">
+    <div class="md:col-span-3">
+      <div class="rounded-xl overflow-hidden mb-6" style="background: #1a1a2e;">
+        <div class="aspect-video flex items-center justify-center">
+          <span class="text-6xl gold">✦</span>
+        </div>
+      </div>
+
+      <h1 class="text-3xl font-bold gold mb-2"><%= @course.title %></h1>
+      <p class="text-sm mb-4" style="color: #a89070;">Por <%= @course.instructor.name %></p>
+      <div class="flex items-center gap-4 text-sm mb-6" style="color: #666;">
+        <span><%= @course.lesson_count %> aulas</span>
+        <span><%= @course.total_duration %> min</span>
+        <span><%= @course.student_count %> alunos</span>
+        <span class="gold"><%= @course.level.humanize %></span>
+      </div>
+
+      <div class="prose prose-invert max-w-none mb-8">
+        <h3 class="text-xl gold font-serif">Sobre o Curso</h3>
+        <p style="color: #a89070; line-height: 1.8;"><%= @course.description %></p>
+      </div>
+
+      <h3 class="text-xl gold font-serif mb-4">Conteúdo do Curso</h3>
+      <div class="space-y-2">
+        <% @lessons.each_with_index do |lesson, i| %>
+          <div class="card-dark p-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <span class="text-xs gold"><%= "%02d" % (i + 1) %></span>
+              <div>
+                <p class="font-medium"><%= lesson.title %></p>
+                <p class="text-xs" style="color: #666;"><%= lesson.duration %> min</p>
+              </div>
+            </div>
+            <div>
+              <% if lesson.free_preview %>
+                <span class="text-xs gold">Grátis</span>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      </div>
+
+      <h3 class="text-xl gold font-serif mb-4 mt-8">Avaliações</h3>
+      <% if @course.reviews.any? %>
+        <div class="flex items-center gap-4 mb-4">
+          <span class="text-4xl gold font-bold"><%= @course.average_rating %></span>
+          <div>
+            <div class="text-lg gold"><%= "★" * @course.average_rating.round %><%= "☆" * (5 - @course.average_rating.round) %></div>
+            <span class="text-xs" style="color: #666;"><%= @course.review_count %> avaliação(ões)</span>
+          </div>
+        </div>
+        <div class="space-y-3">
+          <% @course.reviews.recent.limit(5).each do |review| %>
+            <div class="card-dark p-4">
+              <div class="flex items-center gap-2 mb-1">
+                <span class="text-sm gold"><%= "★" * review.rating %><%= "☆" * (5 - review.rating) %></span>
+                <span class="text-xs" style="color: #666;"><%= review.user.name %></span>
+              </div>
+              <% if review.comment.present? %>
+                <p class="text-sm" style="color: #a89070;"><%= review.comment %></p>
+              <% end %>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p class="text-sm" style="color: #666;">Nenhuma avaliação ainda.</p>
+      <% end %>
+      <%= render "reviews/form", course: @course %>
+
+      <div class="mt-8">
+        <%= link_to "💬 Fórum de Discussão", course_discussion_threads_path(@course), class: "btn-gold text-sm", style: "padding: 10px 24px;" %>
+      </div>
+    </div>
+
+    <div class="md:col-span-2">
+      <div class="card-dark p-6 sticky top-24">
+        <div class="text-3xl font-bold text-white mb-4">
+          <%= number_to_currency(@course.price, unit: "R$ ") %>
+        </div>
+        <p class="text-xs mb-4" style="color: #666;">Até 12x sem juros</p>
+
+        <% if user_signed_in? %>
+          <% if @enrolled %>
+            <%= link_to "Continuar Aprendendo", course_lesson_path(@course, @lessons.first), class: "btn-gold w-full text-center block text-sm" %>
+          <% else %>
+            <%= button_to "Matricular-se", enroll_course_path(@course), class: "btn-gold w-full text-sm", method: :post %>
+          <% end %>
+        <% else %>
+          <%= link_to "Faça Login para Matricular-se", new_user_session_path, class: "btn-gold w-full text-center block text-sm" %>
+        <% end %>
+
+        <div class="mt-6 space-y-3 text-sm" style="color: #666;">
+          <p>✓ Acesso vitalício</p>
+          <p>✓ Certificado de conclusão</p>
+          <p>✓ Suporte do instrutor</p>
+          <p>✓ 7 dias de garantia</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

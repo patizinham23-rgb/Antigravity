@@ -1,0 +1,50 @@
+<% content_for :title, "Meus Cursos - Antigravity LMS" %>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="text-center py-12">
+    <h1 class="text-4xl font-bold mb-4">✦ Meus Cursos ✦</h1>
+    <p class="text-sm uppercase tracking-widest" style="color: #666;">Continue de onde parou</p>
+  </div>
+
+  <% if @in_progress.any? %>
+    <h2 class="text-xl gold font-serif mb-4">Em Andamento</h2>
+    <div class="grid md:grid-cols-2 gap-4 mb-12">
+      <% @in_progress.each do |enrollment| %>
+        <div class="card-dark p-6">
+          <div class="flex items-start justify-between mb-3">
+            <h3 class="text-lg gold"><%= enrollment.course.title %></h3>
+            <span class="text-sm font-bold text-white"><%= enrollment.progress %>%</span>
+          </div>
+          <div class="w-full h-2 rounded-full mb-4" style="background: #222;">
+            <div class="h-full rounded-full gold-bg transition-all" style="width: <%= enrollment.progress %>%"></div>
+          </div>
+          <%= link_to "Continuar", course_lesson_path(enrollment.course, enrollment.course.lessons.first), class: "btn-gold text-xs", style: "padding: 8px 20px;" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @completed.any? %>
+    <h2 class="text-xl gold font-serif mb-4">Concluídos</h2>
+    <div class="grid md:grid-cols-2 gap-4">
+      <% @completed.each do |enrollment| %>
+        <div class="card-dark p-6">
+          <div class="flex items-center gap-3">
+            <span class="text-2xl">✦</span>
+            <div>
+              <h3 class="text-lg gold"><%= enrollment.course.title %></h3>
+              <p class="text-xs" style="color: #666;">Concluído em <%= l(enrollment.completed_at, format: :long) %></p>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <% if @in_progress.empty? && @completed.empty? %>
+    <div class="text-center py-16">
+      <p class="text-xl mb-4" style="color: #666;">Você ainda não está matriculado em nenhum curso.</p>
+      <%= link_to "Explorar Cursos", courses_path, class: "btn-gold" %>
+    </div>
+  <% end %>
+</div>

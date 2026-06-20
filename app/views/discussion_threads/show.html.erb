@@ -1,0 +1,55 @@
+<% content_for :title, @thread.title %>
+
+<div class="max-w-4xl mx-auto px-4 py-8">
+  <%= link_to "← Voltar ao Fórum", course_discussion_threads_path(@course), class: "text-sm gold mb-6 inline-block" %>
+
+  <div class="card-dark p-6 mb-6">
+    <div class="flex items-center gap-3 mb-4">
+      <% if @thread.user.avatar.attached? %>
+        <%= image_tag @thread.user.avatar.variant(:thumb), class: "w-8 h-8 rounded-full object-cover" %>
+      <% else %>
+        <div class="w-8 h-8 rounded-full flex items-center justify-center" style="background: #1a1a2e;">
+          <span class="text-xs gold">✦</span>
+        </div>
+      <% end %>
+      <div>
+        <h1 class="text-xl font-bold gold"><%= @thread.title %></h1>
+        <p class="text-xs" style="color: #666;"><%= @thread.user.name %> · <%= l(@thread.created_at, format: :long) %></p>
+      </div>
+    </div>
+    <div class="prose prose-invert max-w-none text-sm" style="color: #a89070; line-height: 1.8;">
+      <%= simple_format(@thread.body) %>
+    </div>
+  </div>
+
+  <h3 class="text-lg gold font-serif mb-4">Respostas (<%= @replies.count %>)</h3>
+  <div class="space-y-4 mb-8">
+    <% @replies.each do |reply| %>
+      <div class="card-dark p-5">
+        <div class="flex items-center gap-3 mb-3">
+          <% if reply.user.avatar.attached? %>
+            <%= image_tag reply.user.avatar.variant(:thumb), class: "w-6 h-6 rounded-full object-cover" %>
+          <% else %>
+            <div class="w-6 h-6 rounded-full flex items-center justify-center" style="background: #1a1a2e;">
+              <span class="text-xs gold">✦</span>
+            </div>
+          <% end %>
+          <div>
+            <p class="text-sm font-medium"><%= reply.user.name %></p>
+            <p class="text-xs" style="color: #666;"><%= l(reply.created_at, format: :short) %></p>
+          </div>
+        </div>
+        <div class="text-sm" style="color: #a89070; line-height: 1.7;">
+          <%= simple_format(reply.body) %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+
+  <%= form_with model: [@course, @thread, @reply], class: "card-dark p-6" do |f| %>
+    <h4 class="text-sm gold font-serif mb-3">Responder</h4>
+    <%= f.text_area :body, rows: 3, placeholder: "Escreva sua resposta...",
+          class: "w-full mb-3", style: "background: #111; border: 1px solid #222; color: #e0d5c1; padding: 12px; border-radius: 6px;" %>
+    <%= f.submit "Publicar Resposta", class: "btn-gold text-xs", style: "padding: 10px 24px;" %>
+  <% end %>
+</div>

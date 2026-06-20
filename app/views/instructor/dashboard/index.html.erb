@@ -1,0 +1,42 @@
+<% content_for :title, "Instrutor - Antigravity LMS" %>
+
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="flex items-center justify-between mb-8">
+    <h1 class="text-3xl font-bold">✦ Painel do Instrutor</h1>
+    <%= link_to "Novo Curso", new_instructor_course_path, class: "btn-gold text-xs", style: "padding: 8px 20px;" %>
+  </div>
+
+  <div class="grid grid-cols-3 gap-4 mb-8">
+    <div class="card-dark p-6 text-center">
+      <div class="text-3xl gold font-bold font-serif"><%= @courses.count %></div>
+      <div class="text-sm uppercase tracking-wider mt-2" style="color: #666;">Cursos</div>
+    </div>
+    <div class="card-dark p-6 text-center">
+      <div class="text-3xl gold font-bold font-serif"><%= @total_students %></div>
+      <div class="text-sm uppercase tracking-wider mt-2" style="color: #666;">Alunos</div>
+    </div>
+    <div class="card-dark p-6 text-center">
+      <div class="text-3xl gold font-bold font-serif"><%= number_to_currency(@total_revenue, unit: "R$ ") %></div>
+      <div class="text-sm uppercase tracking-wider mt-2" style="color: #666;">Receita</div>
+    </div>
+  </div>
+
+  <h2 class="text-xl gold font-serif mb-4">Seus Cursos</h2>
+  <div class="space-y-3">
+    <% @courses.each do |course| %>
+      <div class="card-dark p-5 flex items-center justify-between">
+        <div>
+          <h3 class="text-lg gold"><%= course.title %></h3>
+          <p class="text-xs" style="color: #666;">
+            <%= course.lesson_count %> aulas · <%= course.student_count %> alunos
+            · <span class="<%= course.published? ? 'gold' : '' %>"><%= course.status.humanize %></span>
+          </p>
+        </div>
+        <div class="flex gap-3">
+          <%= link_to "Editar", edit_instructor_course_path(course), class: "text-sm gold" %>
+          <%= link_to "Aulas", instructor_course_lessons_path(course), class: "text-sm", style: "color: #a89070;" %>
+        </div>
+      </div>
+    <% end %>
+  </div>
+</div>
