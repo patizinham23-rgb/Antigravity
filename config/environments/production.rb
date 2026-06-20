@@ -4,11 +4,7 @@ Rails.application.configure do
   config.consider_all_requests_local = false
 
   config.public_file_server.enabled = ENV["RAILS_SERVE_STATIC_FILES"].present? || ENV["RENDER"].present?
-  config.active_storage.service = if ENV["RENDER"].present?
-    :amazon
-  else
-    :local
-  end
+  config.active_storage.service = ENV.fetch("ACTIVE_STORAGE_SERVICE", :local).to_sym
 
   config.log_level = ENV.fetch("RAILS_LOG_LEVEL", "info")
   config.log_tags = [:request_id]
