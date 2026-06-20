@@ -1,0 +1,14 @@
+.bundle
+db/*.sqlite3
+log/*
+tmp/*
+storage/*
+!storage/.keep
+config/master.key
+config/database.yml
+.env
+.env.local
+.env.production
+node_modules/
+public/assets/
+public/packs/

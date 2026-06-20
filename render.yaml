@@ -1,0 +1,34 @@
+databases:
+  - name: antigravity-db
+    plan: free
+    region: ohio
+    databaseName: antigravity_lms_production
+    user: antigravity
+
+services:
+  - type: web
+    name: antigravity-lms
+    plan: free
+    region: ohio
+    runtime: ruby
+    buildCommand: "./bin/render-build.sh"
+    startCommand: "rails server -b 0.0.0.0 -p $PORT"
+    healthCheckPath: /health
+
+    envVars:
+      - key: RAILS_ENV
+        value: production
+      - key: DATABASE_URL
+        fromDatabase:
+          name: antigravity-db
+          property: connectionString
+      - key: RAILS_MASTER_KEY
+        sync: false
+      - key: SECRET_KEY_BASE
+        generateValue: true
+      - key: RAILS_SERVE_STATIC_FILES
+        value: "true"
+      - key: RAILS_LOG_TO_STDOUT
+        value: "true"
+      - key: HOST
+        value: antigravity-lms.onrender.com
