@@ -1,0 +1,21 @@
+name: Generate Gemfile.lock
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  generate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: "3.4"
+          bundler-cache: false
+      - run: sudo apt-get update -qq && sudo apt-get install -y libpq-dev libvips
+      - run: bundle lock
+      - uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: generate Gemfile.lock"
+          file_pattern: Gemfile.lock
