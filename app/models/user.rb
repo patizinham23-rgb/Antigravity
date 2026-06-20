@@ -27,11 +27,19 @@ class User < ApplicationRecord
     role == "admin"
   end
 
+  after_create :send_welcome_email, if: :student?
+
   def enrolled_in?(course)
     enrollments.where(course: course, status: :active).exists?
   end
 
   def avatar_url
     avatar.attached? ? avatar : nil
+  end
+
+  private
+
+  def send_welcome_email
+    NotificationMailer.welcome(self).deliver_later
   end
 end

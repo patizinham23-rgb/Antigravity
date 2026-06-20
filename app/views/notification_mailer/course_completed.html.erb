@@ -1,0 +1,15 @@
+<p>Parabéns, <strong style="color: #c9a84c;"><%= @user.name %></strong>! 🎉</p>
+
+<p>Você concluiu o curso <strong style="color: #c9a84c;">"<%= @course.title %>"</strong>!</p>
+
+<p>Seu certificado digital já está disponível:</p>
+
+<p style="text-align: center; padding: 20px 0;">
+  <a href="<%= certificate_url(@certificate) %>" style="display: inline-block; padding: 12px 30px; border: 1px solid #c9a84c; color: #c9a84c; text-decoration: none; letter-spacing: 2px; font-size: 13px;">
+    VER CERTIFICADO
+  </a>
+</p>
+
+<p>Continue sua jornada de aprendizado com nossos outros cursos!</p>
+
+<p>Atenciosamente,<br><span style="color: #c9a84c;">Equipe Antigravity</span></p>

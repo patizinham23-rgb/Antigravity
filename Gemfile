@@ -25,6 +25,7 @@ gem "tzinfo-data", platforms: [:windows]
 group :development do
   gem "annotate"
   gem "rubocop-rails"
+  gem "letter_opener"
 end
 
 group :test do

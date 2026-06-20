@@ -1,0 +1,13 @@
+<p>Olá <strong style="color: #c9a84c;"><%= @resource.name %></strong>,</p>
+
+<p>Sua conta foi bloqueada devido a muitas tentativas de login incorretas.</p>
+
+<p>Clique no link abaixo para desbloquear:</p>
+
+<p style="text-align: center; padding: 20px 0;">
+  <a href="<%= unlock_url(@resource, unlock_token: @token) %>" style="display: inline-block; padding: 12px 30px; border: 1px solid #c9a84c; color: #c9a84c; text-decoration: none; letter-spacing: 2px; font-size: 13px;">
+    DESBLOQUEAR CONTA
+  </a>
+</p>
+
+<p>Atenciosamente,<br><span style="color: #c9a84c;">Equipe Antigravity</span></p>

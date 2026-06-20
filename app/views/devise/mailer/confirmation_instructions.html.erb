@@ -1,0 +1,13 @@
+<p>Olá <strong style="color: #c9a84c;"><%= @resource.name %></strong>,</p>
+
+<p>Bem-vindo ao Antigravity LMS!</p>
+
+<p>Confirme seu email clicando no link abaixo:</p>
+
+<p style="text-align: center; padding: 20px 0;">
+  <a href="<%= confirmation_url(@resource, confirmation_token: @token) %>" style="display: inline-block; padding: 12px 30px; border: 1px solid #c9a84c; color: #c9a84c; text-decoration: none; letter-spacing: 2px; font-size: 13px;">
+    CONFIRMAR EMAIL
+  </a>
+</p>
+
+<p>Atenciosamente,<br><span style="color: #c9a84c;">Equipe Antigravity</span></p>

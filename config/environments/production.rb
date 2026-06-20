@@ -25,13 +25,16 @@ Rails.application.configure do
   config.action_mailer.default_url_options = { host: ENV["HOST"] || "antigravitylms.com" }
   config.action_mailer.delivery_method = :smtp
   config.action_mailer.smtp_settings = {
-    address: ENV["SMTP_ADDRESS"],
-    port: ENV["SMTP_PORT"] || 587,
-    user_name: ENV["SMTP_USERNAME"],
+    address: ENV.fetch("SMTP_ADDRESS", "smtp.sendgrid.net"),
+    port: ENV.fetch("SMTP_PORT", 587).to_i,
+    domain: ENV.fetch("SMTP_DOMAIN", "antigravitylms.com"),
+    user_name: ENV.fetch("SMTP_USERNAME", "apikey"),
     password: ENV["SMTP_PASSWORD"],
     authentication: :plain,
     enable_starttls_auto: true
   }
+  config.action_mailer.perform_deliveries = true
+  config.action_mailer.raise_delivery_errors = false
 
   config.force_ssl = true
 end

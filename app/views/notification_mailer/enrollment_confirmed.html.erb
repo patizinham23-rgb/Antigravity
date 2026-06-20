@@ -1,0 +1,15 @@
+<p>Olá <strong style="color: #c9a84c;"><%= @user.name %></strong>,</p>
+
+<p>Sua matrícula no curso <strong style="color: #c9a84c;">"<%= @course.title %>"</strong> foi confirmada!</p>
+
+<p>Você já pode acessar todas as aulas e começar sua jornada de aprendizado.</p>
+
+<p style="text-align: center; padding: 20px 0;">
+  <a href="<%= course_url(@course) %>" style="display: inline-block; padding: 12px 30px; border: 1px solid #c9a84c; color: #c9a84c; text-decoration: none; letter-spacing: 2px; font-size: 13px;">
+    ACESSAR CURSO
+  </a>
+</p>
+
+<p>Bons estudos! 🌟</p>
+
+<p>Atenciosamente,<br><span style="color: #c9a84c;">Equipe Antigravity</span></p>
